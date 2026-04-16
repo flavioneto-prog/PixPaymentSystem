@@ -1,0 +1,39 @@
+[
+  {
+    "ContainingType": "PixPaymentSystem.API.Controllers.PixController",
+    "Method": "CriarPix",
+    "RelativePath": "Pix",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "PixPaymentSystem.Application.DTOs.PixRequestDto",
+        "IsRequired": true
+      },
+      {
+        "Name": "Idempotency-Key",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PixPaymentSystem.API.Controllers.PixController",
+    "Method": "ObterPix",
+    "RelativePath": "Pix/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

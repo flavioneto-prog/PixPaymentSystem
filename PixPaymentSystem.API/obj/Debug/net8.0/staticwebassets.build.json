@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "PQ3AQ6uGgMsCPC3Dx7qunH2I1rfNYTOr0tCF1YXxoP0=",
+  "Source": "PixPaymentSystem.API",
+  "BasePath": "_content/PixPaymentSystem.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

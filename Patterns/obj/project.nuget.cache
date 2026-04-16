@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "8DUE46Vl1LY=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\flavi\\source\\repos\\Patterns\\Patterns\\PixPaymentSystem.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\flavi\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\8.0.1\\microsoft.extensions.dependencyinjection.8.0.1.nupkg.sha512",
+    "C:\\Users\\flavi\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.2\\microsoft.extensions.dependencyinjection.abstractions.8.0.2.nupkg.sha512",
+    "C:\\Users\\flavi\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\flavi\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.21.0\\microsoft.visualstudio.azure.containers.tools.targets.1.21.0.nupkg.sha512"
+  ],
+  "logs": []
+}

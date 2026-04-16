@@ -1,0 +1,93 @@
+name: dockercompose3024704594149426921
+services:
+  elasticsearch:
+    container_name: elasticsearch
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 9200
+        published: "9200"
+        protocol: tcp
+    volumes:
+      - type: volume
+        source: esdata
+        target: /usr/share/elasticsearch/data
+        volume: {}
+  kibana:
+    container_name: kibana
+    depends_on:
+      elasticsearch:
+        condition: service_started
+        required: true
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 5601
+        published: "5601"
+        protocol: tcp
+  pixpaymentsystem.api:
+    build:
+      context: C:\Users\flavi\source\repos\Patterns
+      dockerfile: PixPaymentSystem.API/Dockerfile
+    depends_on:
+      elasticsearch:
+        condition: service_started
+        required: true
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: "8080"
+      ASPNETCORE_HTTPS_PORTS: "8081"
+    image: pixpaymentsystemapi
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 8080
+        published: "8080"
+        protocol: tcp
+      - mode: ingress
+        target: 8080
+        protocol: tcp
+      - mode: ingress
+        target: 8081
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: C:\Users\flavi\AppData\Roaming/Microsoft/UserSecrets
+        target: /home/app/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\flavi\AppData\Roaming/Microsoft/UserSecrets
+        target: /root/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\flavi\AppData\Roaming/ASP.NET/Https
+        target: /home/app/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\flavi\AppData\Roaming/ASP.NET/Https
+        target: /root/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+networks:
+  default:
+    name: dockercompose3024704594149426921_default
+volumes:
+  esdata:
+    name: dockercompose3024704594149426921_esdata
