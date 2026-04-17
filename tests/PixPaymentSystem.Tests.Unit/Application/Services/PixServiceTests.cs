@@ -6,12 +6,14 @@ using PixPaymentSystem.Domain.Pix;
 using FluentAssertions;
 using NSubstitute;
 using Microsoft.Extensions.Logging;
+using PixPaymentSystem.Application.Interfaces;
 
 namespace PixPaymentSystem.Tests.Unit.Application.Services
 {
     public class PixServiceTests
     {
         private readonly ILogger<PixService> _logger = Substitute.For<ILogger<PixService>>();
+        private readonly IPixValidatorChain _validatorChain = Substitute.For<IPixValidatorChain>();
 
         [Fact]
         public void Executar_QuandoPixImediato_DeveProcessarSemErro()
@@ -23,7 +25,7 @@ namespace PixPaymentSystem.Tests.Unit.Application.Services
             };
 
             var resolver = new PixFactoryResolver(factories);
-            var service = new PixService(resolver, _logger);
+            var service = new PixService(resolver, _logger, _validatorChain);
             var tipoPix = TipoPix.Imediato;
             var valor = 100;
 
@@ -42,7 +44,7 @@ namespace PixPaymentSystem.Tests.Unit.Application.Services
             // Arrange
             var factories = new List<IPixFactory>();
             var resolver = new PixFactoryResolver(factories);
-            var service = new PixService(resolver, _logger);
+            var service = new PixService(resolver, _logger, _validatorChain);
 
             var tipoInvalido = (TipoPix)999;
             var contexto = new PixContexto();
@@ -64,7 +66,7 @@ namespace PixPaymentSystem.Tests.Unit.Application.Services
             };
 
             var resolver = new PixFactoryResolver(factories);
-            var service = new PixService(resolver, _logger);
+            var service = new PixService(resolver, _logger, _validatorChain);
 
             var contexto = new PixContexto();
 

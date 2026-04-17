@@ -5,6 +5,8 @@ using PixPaymentSystem.Domain.Enums;
 using PixPaymentSystem.Domain.Interfaces;
 using PixPaymentSystem.Domain.Pix;
 using Microsoft.Extensions.DependencyInjection;
+using PixPaymentSystem.Domain.Pix.Validators;
+using PixPaymentSystem.Application.Pipelines.Chains;
 
 var services = new ServiceCollection();
 
@@ -13,6 +15,12 @@ services.AddTransient<IPixFactory, PixAgendadoFactory>();
 services.AddTransient<IPixFactory, PixRecorrenteFactory>();
 
 services.AddSingleton<IPixFactoryResolver, PixFactoryResolver>();
+
+services.AddTransient<IPixValidatorChain, PixValidatorChain>();
+
+// A ordem do DI define a ordem da chain
+services.AddTransient<PixValidationHandler, ValorNegativoValidator>();
+services.AddTransient<PixValidationHandler, LimiteValidator>();
 
 services.AddTransient<IPixService, PixService>();
 

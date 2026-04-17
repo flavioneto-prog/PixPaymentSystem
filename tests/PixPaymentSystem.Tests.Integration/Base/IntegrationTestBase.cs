@@ -2,6 +2,8 @@
 using PixPaymentSystem.Application.Interfaces;
 using PixPaymentSystem.Domain.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using PixPaymentSystem.Application.Pipelines.Chains;
+using PixPaymentSystem.Domain.Pix.Validators;
 
 namespace PixPaymentSystem.Tests.Integration.Base
 {
@@ -13,14 +15,22 @@ namespace PixPaymentSystem.Tests.Integration.Base
         {
             var services = new ServiceCollection();
 
+            // Logging
+            services.AddLogging();
+
             // Factories
             services.AddTransient<IPixFactory, PixImediatoFactory>();
             services.AddTransient<IPixFactory, PixAgendadoFactory>();
             services.AddTransient<IPixFactory, PixRecorrenteFactory>();
 
+            // Chain Validator
+            services.AddTransient<IPixValidatorChain, PixValidatorChain>();
+            services.AddTransient<PixValidationHandler, ValorNegativoValidator>();
+            services.AddTransient<PixValidationHandler, LimiteValidator>();
+
             // Core
             services.AddSingleton<IPixFactoryResolver, PixFactoryResolver>();
-            IServiceCollection serviceCollection = services.AddTransient<IPixService, Application.Services.PixService>();
+            services.AddTransient<IPixService, Application.Services.PixService>();
 
             Provider = services.BuildServiceProvider();
         }

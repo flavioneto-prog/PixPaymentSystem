@@ -7,6 +7,8 @@ using PixPaymentSystem.Application.Interfaces;
 using PixPaymentSystem.Application.Services;
 using PixPaymentSystem.Domain.Interfaces;
 using Serilog;
+using PixPaymentSystem.Domain.Pix.Validators;
+using PixPaymentSystem.Application.Pipelines.Chains;
 
 Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
@@ -31,6 +33,12 @@ builder.Services.AddTransient<IPixFactory, PixRecorrenteFactory>();
 
 builder.Services.AddSingleton<IPixFactoryResolver, PixFactoryResolver>();
 builder.Services.AddSingleton<IIdempotencyService, IdempotencyService>();
+
+builder.Services.AddTransient<IPixValidatorChain, PixValidatorChain>();
+
+// A ordem do DI define a ordem da chain
+builder.Services.AddTransient<PixValidationHandler, ValorNegativoValidator>();
+builder.Services.AddTransient<PixValidationHandler, LimiteValidator>();
 
 builder.Services.AddTransient<IPixService, PixService>();
 

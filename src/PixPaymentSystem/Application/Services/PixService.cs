@@ -7,7 +7,8 @@ namespace PixPaymentSystem.Application.Services
 {
     public class PixService(
         IPixFactoryResolver resolver,
-        ILogger<PixService> logger) : IPixService
+        ILogger<PixService> logger,
+        IPixValidatorChain validatorChain) : IPixService
     {
         public void Executar(TipoPix tipo, decimal valor, PixContexto contexto)
         {
@@ -16,6 +17,8 @@ namespace PixPaymentSystem.Application.Services
                 tipo,
                 valor
             );
+
+            validatorChain.Validar(valor);
 
             var transacao = resolver.Criar(tipo, contexto);
             transacao.Processar(valor);
