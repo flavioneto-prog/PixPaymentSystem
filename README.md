@@ -46,7 +46,6 @@ tests/
 ## 🧩 🔥 Design Patterns aplicados
 
 * ✅ Factory Method
-* ✅ Strategy
 * ✅ Idempotency
 
 ---
