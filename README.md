@@ -46,6 +46,7 @@ tests/
 ## 🧩 🔥 Design Patterns aplicados
 
 * ✅ Factory Method
+* ✅ Chain of Responsibility
 * ✅ Idempotency
 
 ---
