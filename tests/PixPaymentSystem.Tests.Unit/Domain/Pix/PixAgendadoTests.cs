@@ -1,8 +1,8 @@
-﻿using PixPaymentSystem.Domain.Pix;
-using FluentAssertions;
-
-namespace PixPaymentSystem.Tests.Unit.Domain.Pix
+﻿namespace PixPaymentSystem.Tests.Unit.Domain.Pix
 {
+    using FluentAssertions;
+    using PixPaymentSystem.Domain.Pix;
+
     public class PixAgendadoTests
     {
         [Fact]

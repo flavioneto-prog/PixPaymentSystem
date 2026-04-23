@@ -1,11 +1,11 @@
-using PixPaymentSystem.Application.Factories;
-using PixPaymentSystem.Domain.Enums;
-using PixPaymentSystem.Domain.Interfaces;
-using PixPaymentSystem.Domain.Pix;
-using FluentAssertions;
-
 namespace PixPaymentSystem.Tests.Unit.Application.Factories
 {
+    using FluentAssertions;
+    using PixPaymentSystem.Application.Factories;
+    using PixPaymentSystem.Domain.Enums;
+    using PixPaymentSystem.Domain.Interfaces;
+    using PixPaymentSystem.Domain.Pix;
+
     public class PixFactoryResolverTests
     {
         [Fact]
@@ -16,7 +16,7 @@ namespace PixPaymentSystem.Tests.Unit.Application.Factories
             {
                 new PixImediatoFactory(),
                 new PixAgendadoFactory(),
-                new PixRecorrenteFactory()
+                new PixRecorrenteFactory(),
             };
 
             var resolver = new PixFactoryResolver(factories);
@@ -42,7 +42,6 @@ namespace PixPaymentSystem.Tests.Unit.Application.Factories
             var act = () => resolver.Criar(tipoPixInexistente, contexto);
 
             // Act & Assert
-
             act.Should()
                 .Throw<NotSupportedException>()
                 .WithMessage($"*Tipo {tipoPixInexistente} de Pix não suportado.*");

@@ -1,9 +1,9 @@
-﻿using PixPaymentSystem.Application.Factories;
-using PixPaymentSystem.Domain.Pix;
-using FluentAssertions;
-
-namespace PixPaymentSystem.Tests.Unit.Application.Factories
+﻿namespace PixPaymentSystem.Tests.Unit.Application.Factories
 {
+    using FluentAssertions;
+    using PixPaymentSystem.Application.Factories;
+    using PixPaymentSystem.Domain.Pix;
+
     public class PixRecorrenteFactoryTests
     {
         [Fact]
@@ -14,7 +14,7 @@ namespace PixPaymentSystem.Tests.Unit.Application.Factories
             var contexto = new PixContexto()
             {
                 DataFim = DateTime.UtcNow.AddMonths(1),
-                FrequenciaDias = 1
+                FrequenciaDias = 1,
             };
 
             // Act
@@ -31,7 +31,7 @@ namespace PixPaymentSystem.Tests.Unit.Application.Factories
             var factory = new PixRecorrenteFactory();
             var contexto = new PixContexto()
             {
-                DataFim = DateTime.UtcNow.AddMonths(1)
+                DataFim = DateTime.UtcNow.AddMonths(1),
             };
 
             // Act
@@ -50,7 +50,7 @@ namespace PixPaymentSystem.Tests.Unit.Application.Factories
             var factory = new PixRecorrenteFactory();
             var contexto = new PixContexto()
             {
-                FrequenciaDias = 1
+                FrequenciaDias = 1,
             };
 
             // Act

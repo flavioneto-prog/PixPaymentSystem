@@ -1,9 +1,9 @@
-﻿using PixPaymentSystem.Application.Factories;
-using PixPaymentSystem.Domain.Pix;
-using FluentAssertions;
-
-namespace PixPaymentSystem.Tests.Unit.Application.Factories
+﻿namespace PixPaymentSystem.Tests.Unit.Application.Factories
 {
+    using FluentAssertions;
+    using PixPaymentSystem.Application.Factories;
+    using PixPaymentSystem.Domain.Pix;
+
     public class PixAgendadoFactoryTests
     {
         [Fact]
@@ -13,7 +13,7 @@ namespace PixPaymentSystem.Tests.Unit.Application.Factories
             var factory = new PixAgendadoFactory();
             var contexto = new PixContexto
             {
-                DataAgendamento = DateTime.UtcNow.AddDays(1)
+                DataAgendamento = DateTime.UtcNow.AddDays(1),
             };
 
             // Act

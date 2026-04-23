@@ -1,9 +1,9 @@
-﻿using PixPaymentSystem.Application.Factories;
-using PixPaymentSystem.Domain.Pix;
-using FluentAssertions;
-
-namespace PixPaymentSystem.Tests.Unit.Application.Factories
+﻿namespace PixPaymentSystem.Tests.Unit.Application.Factories
 {
+    using FluentAssertions;
+    using PixPaymentSystem.Application.Factories;
+    using PixPaymentSystem.Domain.Pix;
+
     public class PixImediatoFactoryTests
     {
         [Fact]

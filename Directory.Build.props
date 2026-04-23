@@ -1,0 +1,33 @@
+<Project>
+  <PropertyGroup>
+	<AnalysisLevel>latest</AnalysisLevel>
+	<AnalysisMode>All</AnalysisMode>
+	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	<CodeAnalysisTreatWarningAsErrors>true</CodeAnalysisTreatWarningAsErrors>
+	<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<PackageReference 
+		Include="SonarAnalyzer.CSharp" 
+		Version="10.24.0.138807"
+		PrivateAssets ="all"
+		Condition="'$(MSBuildProjectExtension)' == '.csproj'"
+	/>
+  </ItemGroup>
+
+  <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('Tests.Unit')) OR $(MSBuildProjectName.EndsWith('Tests.Integration'))">
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <NoWarn>1591;SA1600;SA0001;SA1649;CA1707;CA1515;SA1309</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.API'))">
+    <NoWarn>$(NoWarn);CA1515</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);CA1515;SA1313;SA1101;CA2007</NoWarn>
+  </PropertyGroup>
+
+</Project>

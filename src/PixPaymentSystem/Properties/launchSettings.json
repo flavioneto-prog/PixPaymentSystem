@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Patterns": {
+    "PixPaymentSystem.Console": {
       "commandName": "Project"
     },
     "Container (Dockerfile)": {

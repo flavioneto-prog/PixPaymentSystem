@@ -1,18 +1,18 @@
-﻿using PixPaymentSystem.Application.Factories;
-using PixPaymentSystem.Application.Services;
-using PixPaymentSystem.Domain.Enums;
-using PixPaymentSystem.Domain.Interfaces;
-using PixPaymentSystem.Domain.Pix;
-using FluentAssertions;
-using NSubstitute;
-using Microsoft.Extensions.Logging;
-using PixPaymentSystem.Application.Interfaces;
-
-namespace PixPaymentSystem.Tests.Unit.Application.Services
+﻿namespace PixPaymentSystem.Tests.Unit.Application.Services
 {
+    using FluentAssertions;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.Abstractions;
+    using NSubstitute;
+    using PixPaymentSystem.Application.Factories;
+    using PixPaymentSystem.Application.Services;
+    using PixPaymentSystem.Domain.Enums;
+    using PixPaymentSystem.Domain.Interfaces;
+    using PixPaymentSystem.Domain.Pix;
+
     public class PixServiceTests
     {
-        private readonly ILogger<PixService> _logger = Substitute.For<ILogger<PixService>>();
+        private readonly ILogger<PixService> _logger = NullLogger<PixService>.Instance;
         private readonly IPixValidatorChain _validatorChain = Substitute.For<IPixValidatorChain>();
 
         [Fact]
@@ -21,7 +21,7 @@ namespace PixPaymentSystem.Tests.Unit.Application.Services
             // Arrange
             var factories = new List<IPixFactory>
             {
-                new PixImediatoFactory()
+                new PixImediatoFactory(),
             };
 
             var resolver = new PixFactoryResolver(factories);
@@ -62,7 +62,7 @@ namespace PixPaymentSystem.Tests.Unit.Application.Services
             // Arrange
             var factories = new List<IPixFactory>
             {
-                new PixAgendadoFactory()
+                new PixAgendadoFactory(),
             };
 
             var resolver = new PixFactoryResolver(factories);

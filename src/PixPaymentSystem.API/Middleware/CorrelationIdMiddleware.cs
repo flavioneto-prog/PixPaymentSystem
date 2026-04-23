@@ -1,17 +1,25 @@
 ﻿namespace PixPaymentSystem.API.Middleware
 {
-    public class CorrelationIdMiddleware
+    /// <summary>
+    /// Middleware responsável por gerenciar o cabeçalho de ID de correlação (X-Correlation-ID).
+    /// </summary>
+    /// <remarks>
+    /// Inicializa uma nova instância da classe <see cref="CorrelationIdMiddleware"/>.
+    /// </remarks>
+    /// <param name="next">O próximo middleware na pipeline de requisição.</param>
+    public class CorrelationIdMiddleware(RequestDelegate next)
     {
         private const string HeaderName = "X-Correlation-ID";
-        private readonly RequestDelegate _next;
 
-        public CorrelationIdMiddleware(RequestDelegate next)
-        {
-            _next = next;
-        }
-
+        /// <summary>
+        /// Invoca o middleware para processar o contexto HTTP.
+        /// </summary>
+        /// <param name="context">O contexto HTTP atual.</param>
+        /// <returns>Uma tarefa que representa a operação assíncrona.</returns>
         public async Task Invoke(HttpContext context)
         {
+            ArgumentNullException.ThrowIfNull(context);
+
             var correlationId = context.Request.Headers[HeaderName].FirstOrDefault();
 
             if (string.IsNullOrWhiteSpace(correlationId))
@@ -19,16 +27,16 @@
                 correlationId = Guid.NewGuid().ToString();
             }
 
-            // adiciona no contexto
+            // Adiciona no contexto
             context.Items[HeaderName] = correlationId;
 
-            // adiciona na resposta
+            // Adiciona na resposta
             context.Response.Headers[HeaderName] = correlationId;
 
-            // adiciona ao log context (Serilog)
+            // Adiciona ao log context (Serilog)
             using (Serilog.Context.LogContext.PushProperty("CorrelationId", correlationId))
             {
-                await _next(context);
+                await next(context);
             }
         }
     }

@@ -1,0 +1,150 @@
+root = true
+
+########################################
+# GLOBAL
+########################################
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+
+########################################
+# C#
+########################################
+[*.cs]
+
+########################################
+# USING
+########################################
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = true
+csharp_using_directive_placement = inside_namespace
+
+########################################
+# NAMESPACE
+########################################
+csharp_style_namespace_declarations = file_scoped:warning
+
+########################################
+# VAR (equilíbrio moderno)
+########################################
+csharp_style_var_for_built_in_types = true:suggestion
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_style_var_elsewhere = false:suggestion
+
+########################################
+# THIS (evitar poluição)
+########################################
+dotnet_style_qualification_for_field = false:suggestion
+dotnet_style_qualification_for_property = false:suggestion
+dotnet_style_qualification_for_method = false:suggestion
+dotnet_style_qualification_for_event = false:suggestion
+
+########################################
+# EXPRESSÕES MODERNAS
+########################################
+csharp_style_expression_bodied_methods = when_on_single_line:suggestion
+csharp_style_expression_bodied_properties = true:suggestion
+
+dotnet_style_prefer_collection_initializer = true:suggestion
+dotnet_style_prefer_object_initializer = true:suggestion
+dotnet_style_prefer_conditional_expression_over_return = true:suggestion
+
+########################################
+# NULL / CLEAN CODE
+########################################
+dotnet_style_null_propagation = true:warning
+dotnet_style_coalesce_expression = true:warning
+
+########################################
+# PADRÕES MODERNOS (C# 10+)
+########################################
+csharp_style_prefer_switch_expression = true:warning
+csharp_style_pattern_matching_over_is_with_cast_check = true:warning
+
+########################################
+# IMUTABILIDADE / PERFORMANCE
+########################################
+dotnet_style_readonly_field = true:warning
+csharp_prefer_static_local_function = true:warning
+csharp_prefer_simple_using_statement = true:warning
+
+########################################
+# SEGURANÇA / QUALIDADE
+########################################
+csharp_prefer_braces = true:warning
+dotnet_code_quality_unused_parameters = all:warning
+
+########################################
+# FORMATAÇÃO
+########################################
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+
+csharp_space_around_binary_operators = before_and_after
+
+########################################
+# NOMENCLATURA (PADRÃO REAL DE MERCADO)
+########################################
+
+# Interfaces: IExample
+dotnet_naming_rule.interfaces_should_start_with_i.severity = warning
+dotnet_naming_rule.interfaces_should_start_with_i.symbols = interfaces
+dotnet_naming_rule.interfaces_should_start_with_i.style = prefix_i
+
+dotnet_naming_symbols.interfaces.applicable_kinds = interface
+
+dotnet_naming_style.prefix_i.required_prefix = I
+dotnet_naming_style.prefix_i.capitalization = pascal_case
+
+# Tipos: PascalCase
+dotnet_naming_rule.types_should_be_pascal.severity = warning
+dotnet_naming_rule.types_should_be_pascal.symbols = types
+dotnet_naming_rule.types_should_be_pascal.style = pascal
+
+dotnet_naming_symbols.types.applicable_kinds = class, struct, enum, interface
+
+dotnet_naming_style.pascal.capitalization = pascal_case
+
+# Campos privados: _camelCase (PADRÃO MODERNO)
+dotnet_naming_rule.private_fields_should_be_camel_with_underscore.severity = warning
+dotnet_naming_rule.private_fields_should_be_camel_with_underscore.symbols = private_fields
+dotnet_naming_rule.private_fields_should_be_camel_with_underscore.style = camel_with_underscore
+
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+
+dotnet_naming_style.camel_with_underscore.required_prefix = _
+dotnet_naming_style.camel_with_underscore.capitalization = camel_case
+
+########################################
+# TESTES (RELAXADO E PRÁTICO)
+########################################
+[**/tests/**/*.cs]
+
+# testes não precisam disso
+dotnet_diagnostic.CS1591.severity = none
+dotnet_diagnostic.SA1600.severity = none
+
+# underscore em nome de teste (AAA pattern)
+dotnet_diagnostic.CA1707.severity = none
+
+# mais liberdade
+csharp_style_expression_bodied_methods = false
+dotnet_style_readonly_field = false
+
+########################################
+# ARQUIVOS DE CONFIG / JSON
+########################################
+[*.json]
+indent_size = 2
+
+[*.yml]
+indent_size = 2
