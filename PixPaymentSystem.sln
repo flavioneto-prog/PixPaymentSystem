@@ -9,8 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5FC6ECE5
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81DDED9D-158B-E303-5F62-77A2896D2A5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixPaymentSystem.Console", "src\PixPaymentSystem\PixPaymentSystem.Console.csproj", "{ADD63FDE-1112-A355-8FC3-1F911C4873FD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixPaymentSystem.API", "src\PixPaymentSystem.API\PixPaymentSystem.API.csproj", "{A8A4C78B-303B-1B4A-406E-B04B1EEFF0F4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixPaymentSystem.Tests.Unit", "tests\PixPaymentSystem.Tests.Unit\PixPaymentSystem.Tests.Unit.csproj", "{99F42D44-126F-20CD-8EFF-46E55E9F4994}"
@@ -23,7 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixPaymentSystem.Application", "src\PixPaymentSystem.Application\PixPaymentSystem.Application.csproj", "{E6D2FAA0-BCCD-4124-8F2B-709681BACC47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixPaymentSystem.Domain", "..\PixPaymentSystem.Domain\PixPaymentSystem.Domain.csproj", "{6094D39C-D5AD-4820-BD85-68F387210A77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixPaymentSystem.Domain", "src\PixPaymentSystem.Domain\PixPaymentSystem.Domain.csproj", "{26704D69-9424-1D39-6D35-AAA1D1D1E162}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixPaymentSystem.Console", "src\PixPaymentSystem.Console\PixPaymentSystem.Console.csproj", "{02E7175E-8E6E-7CC2-0AA0-9C3813905980}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,6 @@ Global
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ADD63FDE-1112-A355-8FC3-1F911C4873FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ADD63FDE-1112-A355-8FC3-1F911C4873FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ADD63FDE-1112-A355-8FC3-1F911C4873FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ADD63FDE-1112-A355-8FC3-1F911C4873FD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A8A4C78B-303B-1B4A-406E-B04B1EEFF0F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A8A4C78B-303B-1B4A-406E-B04B1EEFF0F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8A4C78B-303B-1B4A-406E-B04B1EEFF0F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,20 +47,24 @@ Global
 		{E6D2FAA0-BCCD-4124-8F2B-709681BACC47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6D2FAA0-BCCD-4124-8F2B-709681BACC47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6D2FAA0-BCCD-4124-8F2B-709681BACC47}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6094D39C-D5AD-4820-BD85-68F387210A77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6094D39C-D5AD-4820-BD85-68F387210A77}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6094D39C-D5AD-4820-BD85-68F387210A77}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6094D39C-D5AD-4820-BD85-68F387210A77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26704D69-9424-1D39-6D35-AAA1D1D1E162}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26704D69-9424-1D39-6D35-AAA1D1D1E162}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26704D69-9424-1D39-6D35-AAA1D1D1E162}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26704D69-9424-1D39-6D35-AAA1D1D1E162}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02E7175E-8E6E-7CC2-0AA0-9C3813905980}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02E7175E-8E6E-7CC2-0AA0-9C3813905980}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02E7175E-8E6E-7CC2-0AA0-9C3813905980}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02E7175E-8E6E-7CC2-0AA0-9C3813905980}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{ADD63FDE-1112-A355-8FC3-1F911C4873FD} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{A8A4C78B-303B-1B4A-406E-B04B1EEFF0F4} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{99F42D44-126F-20CD-8EFF-46E55E9F4994} = {5FC6ECE5-3B7C-4605-9012-129565F0DDBC}
 		{E6D2FAA0-BCCD-4124-8F2B-709681BACC47} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{6094D39C-D5AD-4820-BD85-68F387210A77} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{26704D69-9424-1D39-6D35-AAA1D1D1E162} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{02E7175E-8E6E-7CC2-0AA0-9C3813905980} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {17061480-823B-402B-90A7-7035A333EC82}
