@@ -1,42 +1,59 @@
-﻿namespace PixPaymentSystem.Tests.Unit.Application.Factories
+﻿using FluentAssertions;
+using PixPaymentSystem.Application.Factories;
+using PixPaymentSystem.Domain.Pix.Agendado;
+using PixPaymentSystem.Domain.Pix.Enums;
+using PixPaymentSystem.Domain.Pix.Resolvers;
+using PixPaymentSystem.Tests.Unit.Fakers;
+
+namespace PixPaymentSystem.Tests.Unit.Application.Factories;
+
+public class PixAgendadoFactoryTests
 {
-    using FluentAssertions;
-    using PixPaymentSystem.Application.Factories;
-    using PixPaymentSystem.Domain.Pix;
-
-    public class PixAgendadoFactoryTests
+    [Fact]
+    public void Criar_QuandoDataAgendamentoValida_DeveCriarPixAgendado()
     {
-        [Fact]
-        public void Criar_QuandoDataAgendamentoValida_DeveCriarPixAgendado()
-        {
-            // Arrange
-            var factory = new PixAgendadoFactory();
-            var contexto = new PixContexto
-            {
-                DataAgendamento = DateTime.UtcNow.AddDays(1),
-            };
+        // Arrange
+        var strategy = new FakeStrategy(FormaProcessamentoPix.Chave);
+        var resolver = new PixProcessingStrategyResolver([strategy]);
 
-            // Act
-            var resultado = factory.Criar(contexto);
+        var factory = new PixAgendadoFactory(resolver);
 
-            // Assert
-            resultado.Should().BeOfType<PixAgendado>();
-        }
+        var contexto = new PixAgendadoContexto(
+            FormaProcessamentoPix.Chave,
+            100m,
+            "chave@email.com",
+            DateTime.UtcNow.AddDays(1)
+        );
 
-        [Fact]
-        public void Criar_QuandoDataAgendamentoNula_DeveLancarExcecao()
-        {
-            // Arrange
-            var factory = new PixAgendadoFactory();
-            var contexto = new PixContexto();
+        // Act
+        var resultado = factory.Criar(contexto);
 
-            // Act
-            var act = () => factory.Criar(contexto);
+        // Assert
+        resultado.Should().BeOfType<PixAgendado>();
+    }
 
-            // Act & Assert
-            act.Should()
-                .Throw<ArgumentException>()
-                .WithMessage("*DataAgendamento é obrigatória para Pix Agendado.*");
-        }
+    [Fact]
+    public void Criar_QuandoDataAgendamentoInvalida_DeveLancarExcecao()
+    {
+        // Arrange
+        var strategy = new FakeStrategy(FormaProcessamentoPix.Chave);
+        var resolver = new PixProcessingStrategyResolver(new[] { strategy });
+
+        var factory = new PixAgendadoFactory(resolver);
+
+        var dataInvalida = DateTime.MinValue;
+
+        var contexto = new PixAgendadoContexto(
+            FormaProcessamentoPix.Chave,
+            100m,
+            "chave@email.com",
+            dataInvalida
+        );
+
+        // Act
+        var act = () => factory.Criar(contexto);
+
+        // Assert
+        act.Should().Throw<ArgumentException>();
     }
 }

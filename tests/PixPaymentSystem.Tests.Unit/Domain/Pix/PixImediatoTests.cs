@@ -1,21 +1,30 @@
-﻿namespace PixPaymentSystem.Tests.Unit.Domain.Pix
+﻿using FluentAssertions;
+using PixPaymentSystem.Domain.Pix.Enums;
+using PixPaymentSystem.Domain.Pix.Imediato;
+using PixPaymentSystem.Tests.Unit.Fakers;
+
+namespace PixPaymentSystem.Tests.Unit.Domain.Pix;
+
+public class PixImediatoTests
 {
-    using FluentAssertions;
-    using PixPaymentSystem.Domain.Pix;
-
-    public class PixImediatoTests
+    [Fact]
+    public void Processar_QuandoChamado_DeveExecutarSemErro()
     {
-        [Fact]
-        public void Processar_QuandoChamado_DeveExecutarSemErro()
-        {
-            // Arrange
-            var pix = new PixImediato();
+        // Arrange
+        var contexto = new PixImediatoContexto(
+            FormaProcessamentoPix.CopiaECola,
+            100m,
+            "chave@email.com"
+        );
 
-            // Act
-            var act = () => pix.Processar(100);
+        var strategy = new FakeStrategy(FormaProcessamentoPix.CopiaECola);
 
-            // Assert
-            act.Should().NotThrow();
-        }
+        var pix = new PixImediato(strategy, contexto);
+
+        // Act
+        var act = pix.Processar;
+
+        // Assert
+        act.Should().NotThrow();
     }
 }

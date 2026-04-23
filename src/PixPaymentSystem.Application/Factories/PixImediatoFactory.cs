@@ -1,29 +1,33 @@
-﻿namespace PixPaymentSystem.Application.Factories
+﻿using PixPaymentSystem.Domain.Interfaces;
+using PixPaymentSystem.Domain.Pix.Base;
+using PixPaymentSystem.Domain.Pix.Enums;
+using PixPaymentSystem.Domain.Pix.Imediato;
+using PixPaymentSystem.Domain.Pix.Resolvers;
+
+namespace PixPaymentSystem.Application.Factories;
+
+/// <summary>
+/// 
+/// </summary>
+public sealed class PixImediatoFactory(PixProcessingStrategyResolver resolver) : IPixFactory
 {
-    using PixPaymentSystem.Domain.Enums;
-    using PixPaymentSystem.Domain.Interfaces;
-    using PixPaymentSystem.Domain.Pix;
+    /// <summary>
+    /// Gets the type of Pix handled by this factory.
+    /// </summary>
+    public TipoPix Tipo => TipoPix.Imediato;
 
     /// <summary>
-    /// Factory class responsible for creating instances of PixImediato.
+    /// 
     /// </summary>
-    public sealed class PixImediatoFactory : IPixFactory
+    /// <param name="contextoBase"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public ITransacaoPix Criar(PixContextoBase contextoBase)
     {
-        /// <summary>
-        /// Singleton instance of PixImediato.
-        /// </summary>
-        private static readonly PixImediato Instance = new();
+        var contexto = (PixImediatoContexto)contextoBase ?? throw new ArgumentNullException(nameof(contextoBase), "O contexto não pode ser nulo.");
 
-        /// <summary>
-        /// Gets the type of Pix handled by this factory.
-        /// </summary>
-        public TipoPix Tipo => TipoPix.Imediato;
+        var strategy = resolver.Resolve(contexto.FormaProcessamento);
 
-        /// <summary>
-        /// Creates a new Pix transaction based on the provided context.
-        /// </summary>
-        /// <param name="contexto">The context for the Pix transaction.</param>
-        /// <returns>An instance of <see cref="ITransacaoPix"/>.</returns>
-        public ITransacaoPix Criar(PixContexto contexto) => Instance;
+        return new PixImediato(strategy, contexto);
     }
 }

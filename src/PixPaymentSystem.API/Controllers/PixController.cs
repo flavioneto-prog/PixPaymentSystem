@@ -4,8 +4,12 @@ namespace PixPaymentSystem.API.Controllers
     using PixPaymentSystem.Application.DTOs;
     using PixPaymentSystem.Application.Interfaces;
     using PixPaymentSystem.Application.Logging;
-    using PixPaymentSystem.Domain.Enums;
     using PixPaymentSystem.Domain.Pix;
+    using PixPaymentSystem.Domain.Pix.Agendado;
+    using PixPaymentSystem.Domain.Pix.Base;
+    using PixPaymentSystem.Domain.Pix.Enums;
+    using PixPaymentSystem.Domain.Pix.Imediato;
+    using PixPaymentSystem.Domain.Pix.Recorrente;
 
     /// <summary>
     /// Controller responsável por processar as requisições relacionadas ao Pix,
@@ -54,13 +58,35 @@ namespace PixPaymentSystem.API.Controllers
             try
             {
                 var tipo = Enum.Parse<TipoPix>(request.Tipo, true);
+                var forma = Enum.Parse<FormaProcessamentoPix>(request.FormaProcessamento, true);
 
-                var contexto = new PixContexto(
-                    request.DataAgendamento,
-                    request.FrequenciaDias,
-                    request.DataFim);
+                PixContextoBase contexto = tipo switch
+                {
+                    TipoPix.Imediato => new PixImediatoContexto(
+                        forma,
+                        request.Valor,
+                        request.Chave
+                    ),
 
-                pixService.Executar(tipo, request.Valor, contexto);
+                    TipoPix.Agendado => new PixAgendadoContexto(
+                        forma,
+                        request.Valor,
+                        request.Chave,
+                        request.DataAgendamento!.Value
+                    ),
+
+                    TipoPix.Recorrente => new PixRecorrenteContexto(
+                        forma,
+                        request.Valor,
+                        request.Chave,
+                        request.FrequenciaDias!.Value,
+                        request.DataFim!.Value
+                    ),
+
+                    _ => throw new InvalidOperationException($"Tipo {tipo} não suportado")
+                };
+
+                pixService.Executar(tipo, contexto);
 
                 var response = new PixResponseDto
                 {

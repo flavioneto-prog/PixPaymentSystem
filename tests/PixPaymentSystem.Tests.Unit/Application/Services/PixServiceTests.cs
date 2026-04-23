@@ -1,82 +1,72 @@
-﻿namespace PixPaymentSystem.Tests.Unit.Application.Services
+﻿using FluentAssertions;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using NSubstitute;
+using PixPaymentSystem.Application.Factories;
+using PixPaymentSystem.Application.Resolvers;
+using PixPaymentSystem.Application.Services;
+using PixPaymentSystem.Domain.Interfaces;
+using PixPaymentSystem.Domain.Pix.Enums;
+using PixPaymentSystem.Domain.Pix.Imediato;
+using PixPaymentSystem.Domain.Pix.Resolvers;
+using PixPaymentSystem.Tests.Unit.Fakers;
+
+namespace PixPaymentSystem.Tests.Unit.Application.Services;
+
+public class PixServiceTests
 {
-    using FluentAssertions;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Abstractions;
-    using NSubstitute;
-    using PixPaymentSystem.Application.Factories;
-    using PixPaymentSystem.Application.Services;
-    using PixPaymentSystem.Domain.Enums;
-    using PixPaymentSystem.Domain.Interfaces;
-    using PixPaymentSystem.Domain.Pix;
+    private readonly ILogger<PixService> _logger = NullLogger<PixService>.Instance;
+    private readonly IPixValidatorChain _validatorChain = Substitute.For<IPixValidatorChain>();
 
-    public class PixServiceTests
+    [Fact]
+    public void Executar_QuandoPixImediato_DeveProcessarSemErro()
     {
-        private readonly ILogger<PixService> _logger = NullLogger<PixService>.Instance;
-        private readonly IPixValidatorChain _validatorChain = Substitute.For<IPixValidatorChain>();
+        // Arrange
+        var strategy = new FakeStrategy(FormaProcessamentoPix.QrCodeEstatico);
+        var strategyResolver = new PixProcessingStrategyResolver(new[] { strategy });
 
-        [Fact]
-        public void Executar_QuandoPixImediato_DeveProcessarSemErro()
+        var factories = new List<IPixFactory>
         {
-            // Arrange
-            var factories = new List<IPixFactory>
-            {
-                new PixImediatoFactory(),
-            };
+            new PixImediatoFactory(strategyResolver),
+        };
 
-            var resolver = new PixFactoryResolver(factories);
-            var service = new PixService(resolver, _logger, _validatorChain);
-            var tipoPix = TipoPix.Imediato;
-            var valor = 100;
+        var resolver = new PixFactoryResolver(factories);
 
-            var contexto = new PixContexto { };
+        var service = new PixService(resolver, _logger, _validatorChain);
 
-            // Act
-            var act = () => service.Executar(tipoPix, valor, contexto);
+        var contexto = new PixImediatoContexto(
+            FormaProcessamentoPix.QrCodeEstatico,
+            100m,
+            "chave@email.com"
+        );
 
-            // Assert
-            act.Should().NotThrow();
-        }
+        // Act
+        var act = () => service.Executar(TipoPix.Imediato, contexto);
 
-        [Fact]
-        public void Executar_QuandoTipoInvalido_DeveLancarExcecao()
-        {
-            // Arrange
-            var factories = new List<IPixFactory>();
-            var resolver = new PixFactoryResolver(factories);
-            var service = new PixService(resolver, _logger, _validatorChain);
+        // Assert
+        act.Should().NotThrow();
+    }
 
-            var tipoInvalido = (TipoPix)999;
-            var contexto = new PixContexto();
+    [Fact]
+    public void Executar_QuandoTipoInvalido_DeveLancarExcecao()
+    {
+        // Arrange
+        var resolver = new PixFactoryResolver([]);
 
-            // Act
-            var act = () => service.Executar(tipoInvalido, 100, contexto);
+        var service = new PixService(resolver, _logger, _validatorChain);
 
-            // Assert
-            act.Should().Throw<NotSupportedException>();
-        }
+        var contexto = new PixImediatoContexto(
+            FormaProcessamentoPix.Chave,
+            100m,
+            "chave@email.com"
+        );
 
-        [Fact]
-        public void Executar_QuandoPixAgendadoSemData_DeveLancarExcecao()
-        {
-            // Arrange
-            var factories = new List<IPixFactory>
-            {
-                new PixAgendadoFactory(),
-            };
+        var tipoInvalido = (TipoPix)999;
 
-            var resolver = new PixFactoryResolver(factories);
-            var service = new PixService(resolver, _logger, _validatorChain);
+        // Act
+        var act = () => service.Executar(tipoInvalido, contexto);
 
-            var contexto = new PixContexto();
-
-            // Act
-            var act = () => service.Executar(TipoPix.Agendado, 100, contexto);
-
-            // Assert
-            act.Should()
-               .Throw<ArgumentException>()
-               .WithMessage("*DataAgendamento*");
-        }
+        // Assert
+        act.Should().Throw<InvalidOperationException>();
     }
 }

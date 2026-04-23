@@ -1,14 +1,13 @@
-﻿namespace PixPaymentSystem.Domain.Interfaces
+﻿namespace PixPaymentSystem.Domain.Interfaces;
+
+/// <summary>
+/// Represents a chain of validators for PIX payment operations.
+/// </summary>
+public interface IPixValidatorChain
 {
     /// <summary>
-    /// Represents a chain of validators for PIX payment operations.
+    /// Validates the specified payment value.
     /// </summary>
-    public interface IPixValidatorChain
-    {
-        /// <summary>
-        /// Validates the specified payment value.
-        /// </summary>
-        /// <param name="valor">The payment value to validate.</param>
-        void Validar(decimal valor);
-    }
+    /// <param name="valor">The payment value to validate.</param>
+    void Validar(decimal valor);
 }

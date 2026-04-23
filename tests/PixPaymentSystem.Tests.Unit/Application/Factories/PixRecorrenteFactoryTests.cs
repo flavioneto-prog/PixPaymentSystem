@@ -1,65 +1,35 @@
-﻿namespace PixPaymentSystem.Tests.Unit.Application.Factories
+﻿using FluentAssertions;
+using PixPaymentSystem.Application.Factories;
+using PixPaymentSystem.Domain.Pix.Enums;
+using PixPaymentSystem.Domain.Pix.Recorrente;
+using PixPaymentSystem.Domain.Pix.Resolvers;
+using PixPaymentSystem.Tests.Unit.Fakers;
+
+namespace PixPaymentSystem.Tests.Unit.Application.Factories;
+
+public class PixRecorrenteFactoryTests
 {
-    using FluentAssertions;
-    using PixPaymentSystem.Application.Factories;
-    using PixPaymentSystem.Domain.Pix;
-
-    public class PixRecorrenteFactoryTests
+    [Fact]
+    public void Criar_QuandoChamado_DeveRetornarPixRecorrente()
     {
-        [Fact]
-        public void Criar_QuandoChamado_DeveRetornarPixRecorrente()
-        {
-            // Arrange
-            var factory = new PixRecorrenteFactory();
-            var contexto = new PixContexto()
-            {
-                DataFim = DateTime.UtcNow.AddMonths(1),
-                FrequenciaDias = 1,
-            };
+        // Arrange
+        var strategy = new FakeStrategy(FormaProcessamentoPix.CopiaECola);
+        var resolver = new PixProcessingStrategyResolver(new[] { strategy });
 
-            // Act
-            var resultado = factory.Criar(contexto);
+        var factory = new PixRecorrenteFactory(resolver);
 
-            // Assert
-            resultado.Should().BeOfType<PixRecorrente>();
-        }
+        var contexto = new PixRecorrenteContexto(
+            FormaProcessamentoPix.CopiaECola,
+            100m,
+            "chave@email.com",
+            1,
+            DateTime.UtcNow.AddMonths(1)
+        );
 
-        [Fact]
-        public void Criar_QuandoFrequenciaDiasNula_DeveLancarExcecao()
-        {
-            // Arrange
-            var factory = new PixRecorrenteFactory();
-            var contexto = new PixContexto()
-            {
-                DataFim = DateTime.UtcNow.AddMonths(1),
-            };
+        // Act
+        var resultado = factory.Criar(contexto);
 
-            // Act
-            var act = () => factory.Criar(contexto);
-
-            // Act & Assert
-            act.Should()
-                .Throw<ArgumentException>()
-                .WithMessage("*FrequenciaDias é obrigatória para Pix Recorrente.*");
-        }
-
-        [Fact]
-        public void Criar_QuandoDataFimNula_DeveLancarExcecao()
-        {
-            // Arrange
-            var factory = new PixRecorrenteFactory();
-            var contexto = new PixContexto()
-            {
-                FrequenciaDias = 1,
-            };
-
-            // Act
-            var act = () => factory.Criar(contexto);
-
-            // Act & Assert
-            act.Should()
-                .Throw<ArgumentException>()
-                .WithMessage("*DataFim é obrigatória para Pix Recorrente.*");
-        }
+        // Assert
+        resultado.Should().BeOfType<PixRecorrente>();
     }
 }
